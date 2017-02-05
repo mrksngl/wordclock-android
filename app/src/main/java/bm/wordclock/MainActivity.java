@@ -21,10 +21,13 @@ import java.util.Collection;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         PluginsListFragment.OnFragmentInteractionListener,
+        ControllerFragment.OnFragmentInteractionListener,
         WCCommCallbacks {
 
     private ConnectionFragment mConnectionFragment;
     private PluginsListFragment mPluginListFragment;
+    private ControllerFragment mControllerFragment;
+
     private boolean connecting;
 
     private CommProxy mCommunication;
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity
 
         mConnectionFragment = new ConnectionFragment();
         mPluginListFragment = new PluginsListFragment();
+        mControllerFragment = new ControllerFragment();
 
         selectFragment(mConnectionFragment);
     }
@@ -125,6 +129,8 @@ public class MainActivity extends AppCompatActivity
 
             if (id == R.id.nav_plugins) {
                 selectFragment(mPluginListFragment);
+            } else if (id == R.id.nav_keyboard) {
+                selectFragment(mControllerFragment);
             }
         }
 
@@ -150,7 +156,7 @@ public class MainActivity extends AppCompatActivity
                 selectFragment(mConnectionFragment);
                 break;
             case COULD_NOT_CONNECT:
-                mConnectionFragment.setText(getText(R.string.connect_unknownhost));
+                mConnectionFragment.setText(getText(R.string.connect_couldnotconnect));
                 break;
             case HOST_UNKNOWN:
                 mConnectionFragment.setText(getText(R.string.connect_unknownhost));
@@ -168,4 +174,18 @@ public class MainActivity extends AppCompatActivity
         mPluginListFragment.setCurrentPlugin(index);
     }
 
+    @Override
+    public void onLeftClicked() {
+        mCommunication.btn_left();
+    }
+
+    @Override
+    public void onRightClicked() {
+        mCommunication.btn_right();
+    }
+
+    @Override
+    public void onReturnClicked() {
+        mCommunication.btn_return();
+    }
 }

@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="bm.wordclock.ControllerFragment"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_arrow_upward_black_24dp"
+        android:contentDescription="@string/up"
+        android:id="@+id/ctrl_btn_return" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+            android:id="@+id/ctrl_btn_left"
+            android:layout_weight="1"
+            android:contentDescription="@string/left" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_arrow_forward_black_24dp"
+            android:id="@+id/ctrl_btn_right"
+            android:layout_weight="1"
+            android:contentDescription="@string/right" />
+    </LinearLayout>
+</LinearLayout>

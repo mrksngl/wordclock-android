@@ -8,12 +8,18 @@
 
     <string name="title_activity_settings">Settings</string>
 
-    <!-- Strings related to Settings -->
     <string name="pref_host_name">Host name</string>
+
     <string name="connect_connecting">Connecting…</string>
     <string name="connect_unknownhost">Host Unknown</string>
     <string name="connect_couldnotconnect">Could not connect</string>
     <string name="connect_connectionlost">Connection lost</string>
 
+    <string name="up">Up</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+
+    <string name="plugins">Plugins</string>
+    <string name="keys">Keys</string>
 
 </resources>

@@ -18,6 +18,32 @@ public class WCProtocol extends WCCommunication {
 
     protected final WCCallbacks mCallbacks;
 
+    /* must match wordclock */
+    private static final int EVENT_LEFT = 0;
+    private static final int EVENT_RIGHT = 1;
+    private static final int EVENT_RETURN = 2;
+
+    private static final byte [] rawPacketLeft;
+    private static final byte [] rawPacketRight;
+    private static final byte [] rawPacketReturn;
+
+    private static byte [] makeSimpleRawPkg(String cmd, int param) {
+        try {
+            JSONObject obj = createMessage();
+            obj.put(cmd, param);
+            return getRawBuffer(obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    static {
+        rawPacketLeft = makeSimpleRawPkg("SEND_EVENT", EVENT_LEFT);
+        rawPacketRight = makeSimpleRawPkg("SEND_EVENT", EVENT_RIGHT);
+        rawPacketReturn = makeSimpleRawPkg("SEND_EVENT", EVENT_RETURN);
+    }
+
     public WCProtocol(@NonNull String hostName, @NonNull WCCallbacks callbacks) {
         super(hostName);
         mCallbacks = callbacks;
@@ -41,6 +67,18 @@ public class WCProtocol extends WCCommunication {
         } catch (JSONException e) {
             /* should never happen */
         }
+    }
+
+    public void btn_left() throws IOException {
+        writeRaw(rawPacketLeft);
+    }
+
+    public void btn_right() throws IOException {
+        writeRaw(rawPacketRight);
+    }
+
+    public void btn_return() throws IOException {
+        writeRaw(rawPacketReturn);
     }
 
     public void readAndProcess() throws IOException, ProtocolException {

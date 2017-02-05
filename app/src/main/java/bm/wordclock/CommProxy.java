@@ -139,6 +139,27 @@ public class CommProxy {
         }
     }
 
+    public void btn_left() {
+        try {
+            mProxy.btn_left();
+        } catch (IOException ignored) {
+        }
+    }
+
+    public void btn_right() {
+        try {
+            mProxy.btn_right();
+        } catch (IOException ignored) {
+        }
+    }
+
+    public void btn_return() {
+        try {
+            mProxy.btn_return();
+        } catch (IOException ignored) {
+        }
+    }
+
     private void runOnActivity(Runnable r) {
         if (mRunning)
             mActivity.runOnUiThread(r);
