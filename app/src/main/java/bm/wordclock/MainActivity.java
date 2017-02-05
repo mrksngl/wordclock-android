@@ -14,14 +14,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         PluginsListFragment.OnFragmentInteractionListener {
 
+    private ConnectionFragment mConnectionFragment;
     private PluginsListFragment mPluginListFragment;
+    private boolean connecting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +39,12 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mConnectionFragment = new ConnectionFragment();
         mPluginListFragment = new PluginsListFragment();
-        selectFragment(mPluginListFragment);
 
-        final List<Plugin> pl = new LinkedList<>();
+        selectFragment(mConnectionFragment);
+
+        /*final List<Plugin> pl = new LinkedList<>();
         pl.add(new Plugin("Test1", null));
         pl.add(new Plugin("Test2", "Desc 2"));
 
@@ -59,10 +60,11 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
             }
-        }.start();
+        }.start();*/
     }
 
     private void selectFragment(Fragment fragment) {
+        connecting = (fragment == mConnectionFragment);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_main, fragment)
                 .commitAllowingStateLoss();
@@ -110,11 +112,13 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        if (!connecting) {
+            // Handle navigation view item clicks here.
+            int id = item.getItemId();
 
-        if (id == R.id.nav_plugins) {
-            selectFragment(mPluginListFragment);
+            if (id == R.id.nav_plugins) {
+                selectFragment(mPluginListFragment);
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

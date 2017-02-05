@@ -10,4 +10,7 @@
 
     <!-- Strings related to Settings -->
     <string name="pref_host_name">Host name</string>
+    <string name="connect_connecting">Connecting…</string>
+
+
 </resources>
