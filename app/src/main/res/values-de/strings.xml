@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WordClock</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="connect_connecting">Verbindung wird hergestellt…</string>
+    <string name="connect_connectionlost">Verbindung verloren</string>
+    <string name="connect_couldnotconnect">Verbindung konnte nicht hergestellt werden</string>
+    <string name="connect_unknownhost">Host nicht gefunden</string>
+    <string name="keys">Tasten</string>
+    <string name="left">Links</string>
+    <string name="navigation_drawer_close">Navigation schließen</string>
+    <string name="navigation_drawer_open">Navigation öffnen</string>
+    <string name="plugins">Plugins</string>
+    <string name="pref_host_name">Host Name</string>
+    <string name="right">Rechts</string>
+    <string name="up">Hoch</string>
+</resources>
