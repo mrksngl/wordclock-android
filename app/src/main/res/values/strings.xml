@@ -11,6 +11,9 @@
     <!-- Strings related to Settings -->
     <string name="pref_host_name">Host name</string>
     <string name="connect_connecting">Connecting…</string>
+    <string name="connect_unknownhost">Host Unknown</string>
+    <string name="connect_couldnotconnect">Could not connect</string>
+    <string name="connect_connectionlost">Connection lost</string>
 
 
 </resources>

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by mrks on 04.02.17.
@@ -19,8 +20,8 @@ public class PluginListAdapter extends ArrayAdapter<Plugin> {
     private final LayoutInflater mInflater;
     private int mCurrentSelected;
 
-    public PluginListAdapter(Context context, Collection<Plugin> plugins) {
-        super(context, R.layout.plugin_list_item, new ArrayList<>(plugins));
+    public PluginListAdapter(Context context, List<Plugin> plugins) {
+        super(context, R.layout.plugin_list_item, plugins);
 
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

@@ -1,10 +1,11 @@
 package bm.wordclock;
 
-import android.content.res.Configuration;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,14 +14,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.util.Collection;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        PluginsListFragment.OnFragmentInteractionListener {
+        PluginsListFragment.OnFragmentInteractionListener,
+        WCCommCallbacks {
 
     private ConnectionFragment mConnectionFragment;
     private PluginsListFragment mPluginListFragment;
     private boolean connecting;
+
+    private CommProxy mCommunication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,24 +50,6 @@ public class MainActivity extends AppCompatActivity
         mPluginListFragment = new PluginsListFragment();
 
         selectFragment(mConnectionFragment);
-
-        /*final List<Plugin> pl = new LinkedList<>();
-        pl.add(new Plugin("Test1", null));
-        pl.add(new Plugin("Test2", "Desc 2"));
-
-        new Thread() {
-            public void run() {
-                try {
-                    sleep(2000);
-                } catch (Exception e) {
-                }
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        mPluginListFragment.setPlugins(pl);
-                    }
-                });
-            }
-        }.start();*/
     }
 
     private void selectFragment(Fragment fragment) {
@@ -68,6 +57,24 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_main, fragment)
                 .commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        mCommunication.stop();
+        mCommunication = null;
+    }
+
+    @Override
+    public void onPostResume() {
+        super.onPostResume();
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String hostName = sharedPref.getString(SettingsActivity.GeneralPreferenceFragment.KEY_HOST_NAME, "");
+        mCommunication = new CommProxy(this, hostName, this);
+        mCommunication.start();
     }
 
     @Override
@@ -128,6 +135,37 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onPluginChange(int index) {
-        Snackbar.make(findViewById(R.id.toolbar), "Index: " + index, Snackbar.LENGTH_SHORT).show();
+        mCommunication.setActivePlugin(index);
     }
+
+    @Override
+    public void setState(STATE state) {
+        switch (state) {
+            case CONNECTED:
+                selectFragment(mPluginListFragment);
+                break;
+            case DISCONNECTED:
+                Toast.makeText(this, R.string.connect_connectionlost, Toast.LENGTH_SHORT).show();
+                mConnectionFragment.hideText();
+                selectFragment(mConnectionFragment);
+                break;
+            case COULD_NOT_CONNECT:
+                mConnectionFragment.setText(getText(R.string.connect_unknownhost));
+                break;
+            case HOST_UNKNOWN:
+                mConnectionFragment.setText(getText(R.string.connect_unknownhost));
+                break;
+        }
+    }
+
+    @Override
+    public void setPlugins(Collection<Plugin> plugins) {
+        mPluginListFragment.setPlugins(plugins);
+    }
+
+    @Override
+    public void setActivePlugin(int index) {
+        mPluginListFragment.setCurrentPlugin(index);
+    }
+
 }

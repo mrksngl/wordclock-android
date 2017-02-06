@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +23,9 @@ public class PluginsListFragment extends ListFragment {
 
     private OnFragmentInteractionListener mListener;
     private PluginListAdapter mPluginsAdapter;
+    private List<Plugin> mPlugins;
+    private int mCurrentPlugin;
+    private boolean mIsAttached;
 
     public PluginsListFragment() {
         // Required empty public constructor
@@ -33,19 +38,34 @@ public class PluginsListFragment extends ListFragment {
         ListView lv = this.getListView();
         lv.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         lv.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+
+        adaptList();
+    }
+
+    private void adaptList() {
+        if (mIsAttached) {
+            if (mPlugins == null) {
+                setListAdapter(null);
+            } else {
+                mPluginsAdapter = new PluginListAdapter(getContext(), mPlugins);
+                setListAdapter(mPluginsAdapter);
+                mPluginsAdapter.setSelectedIndex(mCurrentPlugin);
+            }
+        }
     }
 
     public void setPlugins(Collection<Plugin> plugins) {
         if (plugins == null)
-            setListAdapter(null);
-        else {
-            mPluginsAdapter = new PluginListAdapter(getContext(), plugins);
-            setListAdapter(mPluginsAdapter);
-        }
+            mPlugins = null;
+        else
+            mPlugins = new ArrayList<>(plugins);
+        adaptList();
     }
 
     public void setCurrentPlugin(int index) {
-        mPluginsAdapter.setSelectedIndex(index);
+        mCurrentPlugin = index;
+        if (mIsAttached)
+            mPluginsAdapter.setSelectedIndex(mCurrentPlugin);
     }
 
     @Override
@@ -65,12 +85,14 @@ public class PluginsListFragment extends ListFragment {
             throw new RuntimeException(context.toString()
                     + " must implement AppsFragmentInteractionListener");
         }
+        mIsAttached = true;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mIsAttached = false;
     }
 
     /**
