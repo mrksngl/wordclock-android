@@ -87,12 +87,17 @@ public class WCCommunication {
         }
     }
 
-    public JSONObject readObject() throws IOException, JSONException, ProtocolException {
+    public JSONObject readObject() throws IOException, ProtocolException {
         int len = dis.readInt();
         byte[] buff = new byte[len];
         dis.readFully(buff);
         String response = new String(buff, "UTF-8");
-        JSONObject obj = new JSONObject(response);
+        JSONObject obj;
+        try {
+            obj = new JSONObject(response);
+        } catch (JSONException e) {
+            throw new ProtocolException("Malformed JSON request");
+        }
         try {
             int apiLevel = obj.getInt("API");
             if (apiLevel != API_LEVEL)
