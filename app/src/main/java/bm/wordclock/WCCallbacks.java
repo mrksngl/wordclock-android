@@ -7,7 +7,6 @@ import java.util.Collection;
  */
 
 public interface WCCallbacks {
-
     void setPlugins(Collection<Plugin> plugins);
 
     void setActivePlugin(int index);

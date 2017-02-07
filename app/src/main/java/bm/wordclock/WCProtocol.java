@@ -16,7 +16,7 @@ import java.util.List;
 
 public class WCProtocol extends WCCommunication {
 
-    private final WCCallbacks mCallbacks;
+    protected final WCCallbacks mCallbacks;
 
     public WCProtocol(@NonNull String hostName, @NonNull WCCallbacks callbacks) {
         super(hostName);
