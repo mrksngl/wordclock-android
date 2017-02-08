@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textAppearance="@android:style/TextAppearance.Material.Large" />
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
 
         <ProgressBar
             style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/connectProgressText"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
             android:layout_gravity="center_horizontal"
             android:visibility="invisible" />
     </LinearLayout>
