@@ -89,8 +89,10 @@ public class WCProtocol extends WCCommunication {
             List<Plugin> list = new LinkedList<>();
             try {
                 for (int i = 0; i < plugins.length(); ++i) {
-                    String name = plugins.getString(i);
-                    list.add(new Plugin(name));
+                    JSONObject p = plugins.getJSONObject(i);
+                    String name = p.getString("NAME");
+                    String description = p.getString("DESCRIPTION");
+                    list.add(new Plugin(name, description));
                 }
             } catch (JSONException e) {
                 throw new ProtocolException("Malformed plugin list");

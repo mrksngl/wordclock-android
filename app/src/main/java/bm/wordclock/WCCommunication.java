@@ -28,7 +28,7 @@ public class WCCommunication {
     private final String mHostName;
 
     private static final int PORT = 8081;
-    public static final int API_LEVEL = 1;
+    public static final int API_LEVEL = 2;
 
     public static class ProtocolException extends Exception {
         public ProtocolException(String what) {
